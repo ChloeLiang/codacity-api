@@ -1,0 +1,22 @@
+{
+  "name": "flashcard-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "supertest": "^3.3.0"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongodb": "^3.1.9",
+    "mongoose": "^5.3.12",
+    "validator": "^10.9.0"
+  }
+}
