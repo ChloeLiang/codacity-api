@@ -61,6 +61,16 @@ UserSchema.methods.generateAuthToken = function() {
   });
 };
 
+// Log user out.
+UserSchema.methods.removeToken = function(token) {
+  const user = this;
+  return user.updateOne({
+    $pull: {
+      tokens: { token },
+    },
+  });
+};
+
 // Model method: check user logged in.
 UserSchema.statics.findByToken = function(token) {
   const User = this;
