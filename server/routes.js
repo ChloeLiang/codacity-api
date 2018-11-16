@@ -21,6 +21,7 @@ module.exports = app => {
     cards.getCardsInDeck
   );
   app.patch('/cards/:id', authenticate, cards.patch);
+  app.delete('/cards/:id', authenticate, cards.destroy);
 
   return app;
 };

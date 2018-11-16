@@ -176,4 +176,77 @@ describe('PATCH /cards/:id', () => {
       .expect(404)
       .end(done);
   });
+
+  it('should return 404 if object id is invalid', done => {
+    request(app)
+      .patch('/cards/123')
+      .set('x-auth', users[1].tokens[0].token)
+      .expect(404)
+      .end(done);
+  });
+});
+
+describe('DELETE /cards/:id', () => {
+  it('should delete a card', done => {
+    const cardId = cards[1]._id.toHexString();
+
+    request(app)
+      .delete(`/cards/${cardId}`)
+      .set('x-auth', users[1].tokens[0].token)
+      .expect(200)
+      .expect(res => {
+        expect(res.body.card._id).to.equal(cardId);
+      })
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+
+        Card.findById(cardId)
+          .then(card => {
+            expect(card).to.be.null;
+            done();
+          })
+          .catch(e => done(e));
+      });
+  });
+
+  it('should not delete a card created by other user', done => {
+    const cardId = cards[0]._id.toHexString();
+
+    request(app)
+      .delete(`/cards/${cardId}`)
+      .set('x-auth', users[1].tokens[0].token)
+      .expect(404)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+
+        Card.findById(cardId)
+          .then(card => {
+            expect(card).to.exist;
+            done();
+          })
+          .catch(e => done(e));
+      });
+  });
+
+  it('should return 404 if card not found', done => {
+    const cardId = new ObjectID().toHexString();
+
+    request(app)
+      .delete(`/cards/${cardId}`)
+      .set('x-auth', users[1].tokens[0].token)
+      .expect(404)
+      .end(done);
+  });
+
+  it('should return 404 if object id is invalid', done => {
+    request(app)
+      .delete('/cards/123')
+      .set('x-auth', users[1].tokens[0].token)
+      .expect(404)
+      .end(done);
+  });
 });

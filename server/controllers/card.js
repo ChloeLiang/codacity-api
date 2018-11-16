@@ -1,3 +1,5 @@
+const { ObjectID } = require('mongodb');
+
 const { Card } = require('../models/card');
 
 const create = (req, res) => {
@@ -37,6 +39,10 @@ const getCardsInDeck = (req, res) => {
 const patch = (req, res) => {
   const cardId = req.params.id;
 
+  if (!ObjectID.isValid(cardId)) {
+    return res.status(404).send();
+  }
+
   Card.findOneAndUpdate(
     { _id: cardId, _creator: req.user._id },
     { $set: req.body },
@@ -50,8 +56,28 @@ const patch = (req, res) => {
       res.send({ card });
     })
     .catch(e => {
-      res.status(400).send();
+      res.status(400).send(e);
     });
 };
 
-module.exports = { create, getCardsInDeck, patch };
+const destroy = (req, res) => {
+  const cardId = req.params.id;
+
+  if (!ObjectID.isValid(cardId)) {
+    return res.status(404).send();
+  }
+
+  Card.findOneAndDelete({ _id: cardId, _creator: req.user._id })
+    .then(card => {
+      if (!card) {
+        return res.status(404).send();
+      }
+
+      res.send({ card });
+    })
+    .catch(e => {
+      res.status(400).send(e);
+    });
+};
+
+module.exports = { create, getCardsInDeck, patch, destroy };
