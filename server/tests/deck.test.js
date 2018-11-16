@@ -55,3 +55,16 @@ describe('POST /decks', () => {
       });
   });
 });
+
+describe('GET /decks', () => {
+  it('should get all decks', done => {
+    request(app)
+      .get('/decks')
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(200)
+      .expect(res => {
+        expect(res.body.decks.length).to.equal(1);
+      })
+      .end(done);
+  });
+});

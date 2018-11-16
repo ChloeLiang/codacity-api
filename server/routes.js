@@ -8,6 +8,7 @@ module.exports = app => {
   app.delete('/users/logout', authenticate, users.logout);
 
   app.post('/decks', authenticate, decks.create);
+  app.get('/decks', authenticate, decks.index);
 
   return app;
 };

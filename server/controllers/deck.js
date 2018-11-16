@@ -16,4 +16,16 @@ const create = (req, res) => {
     });
 };
 
-module.exports = { create };
+const index = (req, res) => {
+  Deck.find({
+    _creator: req.user._id,
+  })
+    .then(decks => {
+      res.send({ decks });
+    })
+    .catch(e => {
+      res.status(400).send(e);
+    });
+};
+
+module.exports = { create, index };
