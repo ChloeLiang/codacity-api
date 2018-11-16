@@ -1,25 +1,35 @@
 const { Deck } = require('../models/deck');
 
+const getModel = type => {
+  if (type === 'deck') {
+    return Deck;
+  }
+};
+
 // Middleware function that makes routes private.
-const authorise = (req, res, next) => {
-  const userId = req.user._id.toHexString();
-  const deckId = req.params.id;
+const authorise = type => {
+  return (req, res, next) => {
+    const userId = req.user._id.toHexString();
+    const id = req.params.id;
 
-  Deck.findById(deckId)
-    .then(deck => {
-      if (!deck) {
-        return res.status(404).send();
-      }
+    const Model = getModel(type);
 
-      if (deck._creator.toHexString() !== userId) {
-        return res.status(401).send();
-      }
+    Model.findById(id)
+      .then(doc => {
+        if (!doc) {
+          return res.status(404).send();
+        }
 
-      next();
-    })
-    .catch(e => {
-      res.status(400).send();
-    });
+        if (doc._creator.toHexString() !== userId) {
+          return res.status(401).send();
+        }
+
+        next();
+      })
+      .catch(e => {
+        res.status(400).send();
+      });
+  };
 };
 
 module.exports = { authorise };

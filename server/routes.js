@@ -13,7 +13,8 @@ module.exports = app => {
   app.get('/decks', authenticate, decks.index);
   app.patch('/decks/:id', authenticate, decks.update);
 
-  app.post('/decks/:id/cards', authenticate, authorise, cards.create);
+  app.post('/decks/:id/cards', authenticate, authorise('deck'), cards.create);
+  app.get('/decks/:id/cards');
 
   return app;
 };
