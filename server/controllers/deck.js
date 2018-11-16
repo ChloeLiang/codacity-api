@@ -1,3 +1,5 @@
+const { ObjectID } = require('mongodb');
+
 const { Deck } = require('../models/deck');
 
 const create = (req, res) => {
@@ -28,4 +30,28 @@ const index = (req, res) => {
     });
 };
 
-module.exports = { create, index };
+const update = (req, res) => {
+  const id = req.params.id;
+
+  if (!ObjectID.isValid(id)) {
+    return res.status(404).send();
+  }
+
+  Deck.findOneAndUpdate(
+    { _id: id, _creator: req.user._id },
+    { $set: req.body },
+    { new: true }
+  )
+    .then(deck => {
+      if (!deck) {
+        return res.status(404).send();
+      }
+
+      res.send({ deck });
+    })
+    .catch(e => {
+      res.status(400).send();
+    });
+};
+
+module.exports = { create, index, update };

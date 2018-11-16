@@ -9,6 +9,7 @@ module.exports = app => {
 
   app.post('/decks', authenticate, decks.create);
   app.get('/decks', authenticate, decks.index);
+  app.patch('/decks/:id', authenticate, decks.update);
 
   return app;
 };
