@@ -128,3 +128,52 @@ describe('GET /decks/:id/cards', () => {
       .end(done);
   });
 });
+
+describe('PATCH /cards/:id', () => {
+  it('should update the card', done => {
+    const cardId = cards[0]._id.toHexString();
+    const front = 'This should be the new front';
+    const back = 'This should be the new back';
+    const repetition = 4;
+    const easiness = 2;
+    const interval = 20;
+    const _deck = decks[1]._id.toHexString();
+
+    request(app)
+      .patch(`/cards/${cardId}`)
+      .send({ front, back, repetition, easiness, interval, _deck })
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(200)
+      .expect(res => {
+        expect(res.body.card.front).to.equal(front);
+        expect(res.body.card.back).to.equal(back);
+        expect(res.body.card.repetition).to.equal(repetition);
+        expect(res.body.card.easiness).to.equal(easiness);
+        expect(res.body.card.interval).to.equal(interval);
+        expect(res.body.card._deck).to.equal(_deck);
+      })
+      .end(done);
+  });
+
+  it('should not update the card created by other user', done => {
+    const cardId = cards[0]._id.toHexString();
+    const front = 'This should be the new front';
+
+    request(app)
+      .patch(`/cards/${cardId}`)
+      .send({ front })
+      .set('x-auth', users[1].tokens[0].token)
+      .expect(404)
+      .end(done);
+  });
+
+  it('should return 404 if card not found', done => {
+    const cardId = new ObjectID().toHexString();
+
+    request(app)
+      .patch(`/cards/${cardId}`)
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(404)
+      .end(done);
+  });
+});

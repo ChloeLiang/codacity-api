@@ -20,6 +20,7 @@ module.exports = app => {
     authorise('deck'),
     cards.getCardsInDeck
   );
+  app.patch('/cards/:id', authenticate, cards.patch);
 
   return app;
 };

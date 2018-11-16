@@ -34,4 +34,24 @@ const getCardsInDeck = (req, res) => {
     });
 };
 
-module.exports = { create, getCardsInDeck };
+const patch = (req, res) => {
+  const cardId = req.params.id;
+
+  Card.findOneAndUpdate(
+    { _id: cardId, _creator: req.user._id },
+    { $set: req.body },
+    { new: true }
+  )
+    .then(card => {
+      if (!card) {
+        return res.status(404).send();
+      }
+
+      res.send({ card });
+    })
+    .catch(e => {
+      res.status(400).send();
+    });
+};
+
+module.exports = { create, getCardsInDeck, patch };
