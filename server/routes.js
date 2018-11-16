@@ -8,6 +8,7 @@ module.exports = app => {
   app.post('/users', users.create);
   app.post('/users/login', users.login);
   app.delete('/users/logout', authenticate, users.logout);
+  app.get('/users/me', authenticate, users.getCurrentUser);
 
   app.post('/decks', authenticate, decks.create);
   app.get('/decks', authenticate, decks.index);

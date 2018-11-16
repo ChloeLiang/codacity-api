@@ -45,4 +45,8 @@ const logout = (req, res) => {
     });
 };
 
-module.exports = { create, login, logout };
+const getCurrentUser = (req, res) => {
+  res.send(req.user);
+};
+
+module.exports = { create, login, logout, getCurrentUser };
