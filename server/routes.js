@@ -1,6 +1,8 @@
 const users = require('./controllers/user');
 const decks = require('./controllers/deck');
+const cards = require('./controllers/card');
 const { authenticate } = require('./middleware/authenticate');
+const { authorise } = require('./middleware/authorise');
 
 module.exports = app => {
   app.post('/users', users.create);
@@ -10,6 +12,8 @@ module.exports = app => {
   app.post('/decks', authenticate, decks.create);
   app.get('/decks', authenticate, decks.index);
   app.patch('/decks/:id', authenticate, decks.update);
+
+  app.post('/decks/:id/cards', authenticate, authorise, cards.create);
 
   return app;
 };

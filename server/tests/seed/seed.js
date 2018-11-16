@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const { User } = require('../../models/user');
 const { Deck } = require('../../models/deck');
+const { Card } = require('../../models/card');
 
 // =============== Users ==============
 
@@ -51,14 +52,16 @@ const populateUsers = done => {
 
 // =============== Decks ===============
 
+const deckOneId = new ObjectID();
+const deckTwoId = new ObjectID();
 const decks = [
   {
-    _id: new ObjectID(),
+    _id: deckOneId,
     name: 'MongoDB',
     _creator: userOneId,
   },
   {
-    _id: new ObjectID(),
+    _id: deckTwoId,
     name: 'PostgreSQL',
     _creator: userTwoId,
   },
@@ -72,4 +75,38 @@ const populateDecks = done => {
     .then(() => done());
 };
 
-module.exports = { users, populateUsers, decks, populateDecks };
+// =============== Cards ===============
+
+const cards = [
+  {
+    _id: new ObjectID(),
+    front: 'Question 1',
+    back: 'Answer 1',
+    _deck: deckOneId,
+    _creator: userOneId,
+  },
+  {
+    _id: new ObjectID(),
+    front: 'Question 2',
+    back: 'Answer 2',
+    _deck: deckTwoId,
+    _creator: userTwoId,
+  },
+];
+
+const populateCards = done => {
+  Card.deleteMany({})
+    .then(() => {
+      return Card.insertMany(cards);
+    })
+    .then(() => done());
+};
+
+module.exports = {
+  users,
+  populateUsers,
+  decks,
+  populateDecks,
+  cards,
+  populateCards,
+};
