@@ -14,7 +14,12 @@ module.exports = app => {
   app.patch('/decks/:id', authenticate, decks.update);
 
   app.post('/decks/:id/cards', authenticate, authorise('deck'), cards.create);
-  app.get('/decks/:id/cards');
+  app.get(
+    '/decks/:id/cards',
+    authenticate,
+    authorise('deck'),
+    cards.getCardsInDeck
+  );
 
   return app;
 };

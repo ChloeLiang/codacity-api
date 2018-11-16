@@ -93,3 +93,38 @@ describe('POST /decks/:id/cards', () => {
       .end(done);
   });
 });
+
+describe('GET /decks/:id/cards', () => {
+  it('should get all cards in the given deck', done => {
+    const deckId = decks[0]._id.toHexString();
+
+    request(app)
+      .get(`/decks/${deckId}/cards`)
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(200)
+      .expect(res => {
+        expect(res.body.cards.length).to.equal(1);
+      })
+      .end(done);
+  });
+
+  it('should return 401 if deck belongs to other user', done => {
+    const deckId = decks[1]._id.toHexString();
+
+    request(app)
+      .get(`/decks/${deckId}/cards`)
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(401)
+      .end(done);
+  });
+
+  it('should return 404 if deck not found', done => {
+    const deckId = new ObjectID().toHexString();
+
+    request(app)
+      .get(`/decks/${deckId}/cards`)
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(404)
+      .end(done);
+  });
+});

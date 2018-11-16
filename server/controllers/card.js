@@ -22,4 +22,16 @@ const create = (req, res) => {
     });
 };
 
-module.exports = { create };
+const getCardsInDeck = (req, res) => {
+  const _deck = req.params.id;
+
+  Card.find({ _deck })
+    .then(cards => {
+      res.send({ cards });
+    })
+    .catch(e => {
+      res.status(400).send(e);
+    });
+};
+
+module.exports = { create, getCardsInDeck };
