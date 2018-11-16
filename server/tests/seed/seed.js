@@ -2,6 +2,9 @@ const { ObjectID } = require('mongodb');
 const jwt = require('jsonwebtoken');
 
 const { User } = require('../../models/user');
+const { Deck } = require('../../models/deck');
+
+// =============== Users ==============
 
 const userOneId = new ObjectID();
 const userTwoId = new ObjectID();
@@ -46,4 +49,27 @@ const populateUsers = done => {
     .then(() => done());
 };
 
-module.exports = { users, populateUsers };
+// =============== Decks ===============
+
+const decks = [
+  {
+    _id: new ObjectID(),
+    name: 'MongoDB',
+    _creator: userOneId,
+  },
+  {
+    _id: new ObjectID(),
+    name: 'PostgreSQL',
+    _creator: userTwoId,
+  },
+];
+
+const populateDecks = done => {
+  Deck.deleteMany({})
+    .then(() => {
+      return Deck.insertMany(decks);
+    })
+    .then(() => done());
+};
+
+module.exports = { users, populateUsers, decks, populateDecks };
