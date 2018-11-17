@@ -29,12 +29,12 @@ describe('POST /decks/:id/cards', () => {
       .send({ front, back })
       .expect(200)
       .expect(res => {
-        expect(res.body.card.front).to.equal(front);
-        expect(res.body.card.back).to.equal(back);
-        expect(res.body.card._deck).to.equal(deckId);
-        expect(res.body.card.repetition).to.equal(0);
-        expect(res.body.card.easiness).to.equal(2.5);
-        expect(res.body.card.interval).to.equal(1);
+        expect(res.body.front).to.equal(front);
+        expect(res.body.back).to.equal(back);
+        expect(res.body._deck).to.equal(deckId);
+        expect(res.body.repetition).to.equal(0);
+        expect(res.body.easiness).to.equal(2.5);
+        expect(res.body.interval).to.equal(1);
       })
       .end((err, res) => {
         if (err) {
@@ -103,7 +103,7 @@ describe('GET /decks/:id/cards', () => {
       .set('x-auth', users[0].tokens[0].token)
       .expect(200)
       .expect(res => {
-        expect(res.body.cards.length).to.equal(1);
+        expect(res.body.length).to.equal(1);
       })
       .end(done);
   });
@@ -145,12 +145,12 @@ describe('PATCH /cards/:id', () => {
       .set('x-auth', users[0].tokens[0].token)
       .expect(200)
       .expect(res => {
-        expect(res.body.card.front).to.equal(front);
-        expect(res.body.card.back).to.equal(back);
-        expect(res.body.card.repetition).to.equal(repetition);
-        expect(res.body.card.easiness).to.equal(easiness);
-        expect(res.body.card.interval).to.equal(interval);
-        expect(res.body.card._deck).to.equal(_deck);
+        expect(res.body.front).to.equal(front);
+        expect(res.body.back).to.equal(back);
+        expect(res.body.repetition).to.equal(repetition);
+        expect(res.body.easiness).to.equal(easiness);
+        expect(res.body.interval).to.equal(interval);
+        expect(res.body._deck).to.equal(_deck);
       })
       .end(done);
   });
@@ -195,7 +195,7 @@ describe('DELETE /cards/:id', () => {
       .set('x-auth', users[1].tokens[0].token)
       .expect(200)
       .expect(res => {
-        expect(res.body.card._id).to.equal(cardId);
+        expect(res.body._id).to.equal(cardId);
       })
       .end((err, res) => {
         if (err) {

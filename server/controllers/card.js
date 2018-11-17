@@ -17,7 +17,7 @@ const create = (req, res) => {
   card
     .save()
     .then(card => {
-      res.send({ card });
+      res.send(card);
     })
     .catch(e => {
       res.status(400).send(e);
@@ -29,7 +29,7 @@ const getCardsInDeck = (req, res) => {
 
   Card.find({ _deck })
     .then(cards => {
-      res.send({ cards });
+      res.send(cards);
     })
     .catch(e => {
       res.status(400).send(e);
@@ -53,7 +53,7 @@ const patch = (req, res) => {
         return res.status(404).send();
       }
 
-      res.send({ card });
+      res.send(card);
     })
     .catch(e => {
       res.status(400).send(e);
@@ -73,7 +73,7 @@ const destroy = (req, res) => {
         return res.status(404).send();
       }
 
-      res.send({ card });
+      res.send(card);
     })
     .catch(e => {
       res.status(400).send(e);

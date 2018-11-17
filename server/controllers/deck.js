@@ -23,7 +23,7 @@ const index = (req, res) => {
     _creator: req.user._id,
   })
     .then(decks => {
-      res.send({ decks });
+      res.send(decks);
     })
     .catch(e => {
       res.status(400).send(e);
@@ -47,7 +47,7 @@ const update = (req, res) => {
         return res.status(404).send();
       }
 
-      res.send({ deck });
+      res.send(deck);
     })
     .catch(e => {
       res.status(400).send();

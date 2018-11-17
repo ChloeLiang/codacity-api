@@ -64,7 +64,7 @@ describe('GET /decks', () => {
       .set('x-auth', users[0].tokens[0].token)
       .expect(200)
       .expect(res => {
-        expect(res.body.decks.length).to.equal(1);
+        expect(res.body.length).to.equal(1);
       })
       .end(done);
   });
@@ -81,7 +81,7 @@ describe('PATCH /decks/:id', () => {
       .set('x-auth', users[0].tokens[0].token)
       .expect(200)
       .expect(res => {
-        expect(res.body.deck.name).to.equal(name);
+        expect(res.body.name).to.equal(name);
       })
       .end(done);
   });
