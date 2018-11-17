@@ -13,7 +13,10 @@ const create = (req, res) => {
     })
     .then(token => {
       // Create a custom header for JWT token.
-      res.header('x-auth', token).send(user);
+      res
+        .header('x-auth', token)
+        .header('access-control-expose-headers', 'x-auth')
+        .send(user);
     })
     .catch(e => {
       res.status(400).send(e);
@@ -26,7 +29,10 @@ const login = (req, res) => {
   User.findByCredentials(body.email, body.password)
     .then(user => {
       return user.generateAuthToken().then(token => {
-        res.header('x-auth', token).send(token);
+        res
+          .header('x-auth', token)
+          .header('access-control-expose-headers', 'x-auth')
+          .send(token);
       });
     })
     .catch(e => {
