@@ -35,6 +35,7 @@ describe('POST /decks/:id/cards', () => {
         expect(res.body.repetition).to.equal(0);
         expect(res.body.easiness).to.equal(2.5);
         expect(res.body.interval).to.equal(1);
+        expect(res.body.next).to.exist;
       })
       .end((err, res) => {
         if (err) {

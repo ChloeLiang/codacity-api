@@ -25,6 +25,10 @@ const CardSchema = new mongoose.Schema({
     type: Number,
     default: 1,
   },
+  next: {
+    type: Date,
+    default: Date.now,
+  },
   _deck: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
