@@ -36,6 +36,26 @@ const getCardsInDeck = (req, res) => {
     });
 };
 
+const get = (req, res) => {
+  const id = req.params.id;
+
+  if (!ObjectID.isValid(id)) {
+    return res.status(404).send();
+  }
+
+  Card.findOne({ _id: id, _creator: req.user._id })
+    .then(card => {
+      if (!card) {
+        return res.status(404).send();
+      }
+
+      res.send(card);
+    })
+    .catch(e => {
+      res.status(400).send(e);
+    });
+};
+
 const update = (req, res) => {
   const cardId = req.params.id;
 
@@ -80,4 +100,4 @@ const destroy = (req, res) => {
     });
 };
 
-module.exports = { create, getCardsInDeck, update, destroy };
+module.exports = { create, getCardsInDeck, get, update, destroy };

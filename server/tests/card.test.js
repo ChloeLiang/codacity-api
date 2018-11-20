@@ -130,6 +130,32 @@ describe('GET /decks/:id/cards', () => {
   });
 });
 
+describe('GET /cards/:id', () => {
+  it('should get card', done => {
+    const cardId = cards[0]._id.toHexString();
+
+    request(app)
+      .get(`/cards/${cardId}`)
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(200)
+      .expect(res => {
+        expect(res.body.front).to.equal(cards[0].front);
+        expect(res.body.back).to.equal(cards[0].back);
+      })
+      .end(done);
+  });
+
+  it('should return 404 if card not found', done => {
+    const cardId = new ObjectID().toHexString();
+
+    request(app)
+      .get(`/cards/${cardId}`)
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(404)
+      .end(done);
+  });
+});
+
 describe('PUT /cards/:id', () => {
   it('should update the card', done => {
     const cardId = cards[0]._id.toHexString();

@@ -21,6 +21,7 @@ module.exports = app => {
     authorise('deck'),
     cards.getCardsInDeck
   );
+  app.get('/cards/:id', authenticate, cards.get);
   app.put('/cards/:id', authenticate, cards.update);
   app.delete('/cards/:id', authenticate, cards.destroy);
 
