@@ -36,7 +36,7 @@ const getCardsInDeck = (req, res) => {
     });
 };
 
-const patch = (req, res) => {
+const update = (req, res) => {
   const cardId = req.params.id;
 
   if (!ObjectID.isValid(cardId)) {
@@ -80,4 +80,4 @@ const destroy = (req, res) => {
     });
 };
 
-module.exports = { create, getCardsInDeck, patch, destroy };
+module.exports = { create, getCardsInDeck, update, destroy };
