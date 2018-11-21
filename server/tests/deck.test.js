@@ -70,13 +70,13 @@ describe('GET /decks', () => {
   });
 });
 
-describe('PATCH /decks/:id', () => {
+describe('PUT /decks/:id', () => {
   it('should update the deck', done => {
     const hexId = decks[0]._id.toHexString();
     const name = 'New deck name';
 
     request(app)
-      .patch(`/decks/${hexId}`)
+      .put(`/decks/${hexId}`)
       .send({ name })
       .set('x-auth', users[0].tokens[0].token)
       .expect(200)
@@ -91,7 +91,7 @@ describe('PATCH /decks/:id', () => {
     const name = 'New deck name';
 
     request(app)
-      .patch(`/decks/${hexId}`)
+      .put(`/decks/${hexId}`)
       .send({ name })
       .set('x-auth', users[1].tokens[0].token)
       .expect(404)
@@ -102,7 +102,7 @@ describe('PATCH /decks/:id', () => {
     const hexId = new ObjectID().toHexString();
 
     request(app)
-      .patch(`/decks/${hexId}`)
+      .put(`/decks/${hexId}`)
       .set('x-auth', users[0].tokens[0].token)
       .expect(404)
       .end(done);
@@ -110,7 +110,7 @@ describe('PATCH /decks/:id', () => {
 
   it('should return 404 if object id is invalid', done => {
     request(app)
-      .patch('/decks/123')
+      .put('/decks/123')
       .set('x-auth', users[0].tokens[0].token)
       .expect(404)
       .end(done);
