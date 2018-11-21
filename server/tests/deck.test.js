@@ -116,3 +116,68 @@ describe('PATCH /decks/:id', () => {
       .end(done);
   });
 });
+
+describe('DELETE /decks/:id', () => {
+  it('should delete a deck', done => {
+    const deckId = decks[1]._id.toHexString();
+
+    request(app)
+      .delete(`/decks/${deckId}`)
+      .set('x-auth', users[1].tokens[0].token)
+      .expect(200)
+      .expect(res => {
+        expect(res.body._id).to.equal(deckId);
+      })
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+
+        Deck.findById(deckId)
+          .then(deck => {
+            expect(deck).to.be.null;
+            done();
+          })
+          .catch(e => done(e));
+      });
+  });
+
+  it('should not delete a deck created by other user', done => {
+    const deckId = decks[0]._id.toHexString();
+
+    request(app)
+      .delete(`/decks/${deckId}`)
+      .set('x-auth', users[1].tokens[0].token)
+      .expect(404)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+
+        Deck.findById(deckId)
+          .then(deck => {
+            expect(deck).to.exist;
+            done();
+          })
+          .catch(e => done(e));
+      });
+  });
+
+  it('should return 404 if todo not found', done => {
+    const deckId = new ObjectID().toHexString();
+
+    request(app)
+      .delete(`/decks/${deckId}`)
+      .set('x-auth', users[1].tokens[0].token)
+      .expect(404)
+      .end(done);
+  });
+
+  it('should return 404 if object id is invalid', done => {
+    request(app)
+      .delete('/decks/123')
+      .set('x-auth', users[1].tokens[0].token)
+      .expect(404)
+      .end(done);
+  });
+});

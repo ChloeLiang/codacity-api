@@ -54,4 +54,24 @@ const update = (req, res) => {
     });
 };
 
-module.exports = { create, index, update };
+const destroy = (req, res) => {
+  const id = req.params.id;
+
+  if (!ObjectID.isValid(id)) {
+    return res.status(404).send();
+  }
+
+  Deck.findOneAndDelete({ _id: id, _creator: req.user._id })
+    .then(deck => {
+      if (!deck) {
+        return res.status(404).send();
+      }
+
+      res.send(deck);
+    })
+    .catch(e => {
+      res.status(400).send();
+    });
+};
+
+module.exports = { create, index, update, destroy };

@@ -13,6 +13,7 @@ module.exports = app => {
   app.post('/decks', authenticate, decks.create);
   app.get('/decks', authenticate, decks.index);
   app.patch('/decks/:id', authenticate, decks.update);
+  app.delete('/decks/:id', authenticate, decks.destroy);
 
   app.post('/decks/:id/cards', authenticate, authorise('deck'), cards.create);
   app.get(
