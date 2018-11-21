@@ -23,6 +23,7 @@ module.exports = app => {
     cards.getCardsInDeck
   );
   app.get('/cards/:id', authenticate, cards.get);
+  app.get('/cards', authenticate, cards.getAll);
   app.put('/cards/:id', authenticate, cards.update);
   app.delete('/cards/:id', authenticate, cards.destroy);
 

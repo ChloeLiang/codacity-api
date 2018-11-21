@@ -156,6 +156,19 @@ describe('GET /cards/:id', () => {
   });
 });
 
+describe('GET /cards', () => {
+  it('should get all cards', done => {
+    request(app)
+      .get('/cards')
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(200)
+      .expect(res => {
+        expect(res.body.length).to.equal(1);
+      })
+      .end(done);
+  });
+});
+
 describe('PUT /cards/:id', () => {
   it('should update the card', done => {
     const cardId = cards[0]._id.toHexString();

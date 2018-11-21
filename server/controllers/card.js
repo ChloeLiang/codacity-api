@@ -56,6 +56,18 @@ const get = (req, res) => {
     });
 };
 
+const getAll = (req, res) => {
+  Card.find({
+    _creator: req.user._id,
+  })
+    .then(cards => {
+      res.send(cards);
+    })
+    .catch(e => {
+      res.status(400).send(e);
+    });
+};
+
 const update = (req, res) => {
   const cardId = req.params.id;
 
@@ -100,4 +112,4 @@ const destroy = (req, res) => {
     });
 };
 
-module.exports = { create, getCardsInDeck, get, update, destroy };
+module.exports = { create, getCardsInDeck, get, getAll, update, destroy };
