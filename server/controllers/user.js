@@ -1,6 +1,7 @@
 const _ = require('lodash');
 
 const { User } = require('../models/user');
+const { Deck } = require('../models/deck');
 
 const create = (req, res) => {
   const body = _.pick(req.body, ['email', 'password']);
@@ -8,6 +9,14 @@ const create = (req, res) => {
 
   user
     .save()
+    .then(user => {
+      const deck = new Deck({
+        name: 'Default',
+        _creator: user._id,
+      });
+
+      return deck.save();
+    })
     .then(() => {
       return user.generateAuthToken();
     })
