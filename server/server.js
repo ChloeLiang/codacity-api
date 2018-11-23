@@ -15,7 +15,6 @@ app.use(
 );
 
 app.use(cors());
-app.options('*', cors());
 
 app = require('./routes')(app);
 
