@@ -5,13 +5,13 @@ const { authenticate } = require('./middleware/authenticate');
 const { authorise } = require('./middleware/authorise');
 
 module.exports = app => {
-  app.post('/users', users.create);
   app.post('/users/login', users.login);
+  app.post('/users', users.create);
   app.delete('/users/logout', authenticate, users.logout);
   app.get('/users/me', authenticate, users.getCurrentUser);
 
-  app.post('/decks', authenticate, decks.create);
   app.get('/decks', authenticate, decks.index);
+  app.post('/decks', authenticate, decks.create);
   app.put('/decks/:id', authenticate, decks.update);
   app.delete('/decks/:id', authenticate, decks.destroy);
 
