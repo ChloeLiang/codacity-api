@@ -3,7 +3,7 @@
 Codacity-API is the back-end RESTful API service for [Codacity](https://codacity.netlify.com) -
 a single page flashcard application that supports markdown notation and syntax
 highlighting. It's built with Node.js, Express, and MongoDB and tested with [Mocha](https://mochajs.org/),
-[Chai](https://www.chaijs.com/) and Supertest.
+[Chai](https://www.chaijs.com/) and [Supertest](https://github.com/visionmedia/supertest).
 
 The source code for the front-end React app is available [here](https://github.com/ChloeLiang/codacity).
 
@@ -135,3 +135,7 @@ git push heroku master
 When contributing to this repository, please first discuss the change you wish to
 make via issue, email, or any other method with the owners of this repository
 before making a change.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
